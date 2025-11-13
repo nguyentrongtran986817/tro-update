@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tính tiền trọ 4 phòng</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00796b;
+      margin-bottom: 30px;
+    }
+
+    .room-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .room {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .room:hover {
+      transform: translateY(-5px);
+    }
+
+    h3 {
+      color: #00695c;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+      color: #333;
+      margin-top: 10px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00796b;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #004d40;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+      background-color: #f1f8e9;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    @media screen and (max-width: 600px) {
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Tính tiền trọ cho 4 phòng</h2>
+  <div class="room-container">
+    <!-- Mẫu phòng -->
+    <div class="room" id="room1">
+      <h3>Phòng 1</h3>
+      <label>Số điện cũ:</label>
+      <input type="number" class="oldElectric">
+      <label>Số điện mới:</label>
+      <input type="number" class="newElectric">
+      <label>Số người ở:</label>
+      <input type="number" class="people">
+      <label>Tiền nước (VND / người):</label>
+      <input type="number" class="waterCost" value="20000">
+      <label>Tiền rác (VND):</label>
+      <input type="number" class="garbageCost" value="20000">
+      <label>Tiền trọ (VND):</label>
+      <input type="number" class="rent">
+      <button onclick="calculateRoom('room1')">Tính tiền</button>
+      <div class="result"></div>
+    </div>
+
+    <div class="room" id="room2">
+      <h3>Phòng 2</h3>
+      <label>Số điện cũ:</label>
+      <input type="number" class="oldElectric">
+      <label>Số điện mới:</label>
+      <input type="number" class="newElectric">
+      <label>Số người ở:</label>
+      <input type="number" class="people">
+      <label>Tiền nước (VND / người):</label>
+      <input type="number" class="waterCost" value="20000">
+      <label>Tiền rác (VND):</label>
+      <input type="number" class="garbageCost" value="20000">
+      <label>Tiền trọ (VND):</label>
+      <input type="number" class="rent">
+      <button onclick="calculateRoom('room2')">Tính tiền</button>
+      <div class="result"></div>
+    </div>
+
+    <div class="room" id="room3">
+      <h3>Phòng 3</h3>
+      <label>Số điện cũ:</label>
+      <input type="number" class="oldElectric">
+      <label>Số điện mới:</label>
+      <input type="number" class="newElectric">
+      <label>Số người ở:</label>
+      <input type="number" class="people">
+      <label>Tiền nước (VND / người):</label>
+      <input type="number" class="waterCost" value="20000">
+      <label>Tiền rác (VND):</label>
+      <input type="number" class="garbageCost" value="20000">
+      <label>Tiền trọ (VND):</label>
+      <input type="number" class="rent">
+      <button onclick="calculateRoom('room3')">Tính tiền</button>
+      <div class="result"></div>
+    </div>
+
+    <div class="room" id="room4">
+      <h3>Phòng 4</h3>
+      <label>Số điện cũ:</label>
+      <input type="number" class="oldElectric">
+      <label>Số điện mới:</label>
+      <input type="number" class="newElectric">
+      <label>Số người ở:</label>
+      <input type="number" class="people">
+      <label>Tiền nước (VND / người):</label>
+      <input type="number" class="waterCost" value="20000">
+      <label>Tiền rác (VND):</label>
+      <input type="number" class="garbageCost" value="20000">
+      <label>Tiền trọ (VND):</label>
+      <input type="number" class="rent">
+      <button onclick="calculateRoom('room4')">Tính tiền</button>
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <script>
+    function formatCurrency(number) {
+      return number.toLocaleString('vi-VN') + " VND";
+    }
+
+    function saveRoomData(roomId, data) {
+      localStorage.setItem(roomId, JSON.stringify(data));
+    }
+
+    function loadRoomData(roomId) {
+      const saved = localStorage.getItem(roomId);
+      return saved ? JSON.parse(saved) : {
+        oldElectric: 0,
+        people: 1,
+        rent: 1200000,
+        waterCost: 20000,
+        garbageCost: 20000
+      };
+    }
+
+    function updateRoomFields(roomId) {
+      const room = document.getElementById(roomId);
+      const data = loadRoomData(roomId);
+
+      room.querySelector(".oldElectric").value = data.oldElectric || 0;
+      room.querySelector(".people").value = data.people || 1;
+      room.querySelector(".rent").value = data.rent || 1200000;
+      room.querySelector(".waterCost").value = data.waterCost || 20000;
+      room.querySelector(".garbageCost").value = data.garbageCost || 20000;
+    }
+
+    function calculateRoom(roomId) {
+      const room = document.getElementById(roomId);
+      const oldElectric = parseFloat(room.querySelector(".oldElectric").value);
+      const newElectric = parseFloat(room.querySelector(".newElectric").value);
+      const people = parseInt(room.querySelector(".people").value);
+      const rent = parseInt(room.querySelector(".rent").value);
+      const waterCost = parseInt(room.querySelector(".waterCost").value);
+      const garbageCost = parseInt(room.querySelector(".garbageCost").value);
+      const resultDiv = room.querySelector(".result");
+
+      if (isNaN(oldElectric) || isNaN(newElectric) || isNaN(people) || isNaN(rent)) {
+        alert("Vui lòng nhập đầy đủ thông tin cho " + roomId.toUpperCase());
+        return;
+      }
+
+      if (newElectric < oldElectric) {
+        alert("Số điện mới phải lớn hơn hoặc bằng số điện cũ!");
+        return;
+      }
+
+      const electricUsed = newElectric - oldElectric;
+      const electricCost = electricUsed * 3.5 * 1000;
+      const totalWater = waterCost * people;
+      const total = electricCost + totalWater + garbageCost + rent;
+
+      resultDiv.innerHTML = `
+        Tiền điện: ${formatCurrency(electricCost)}<br>
+        Tiền nước: ${formatCurrency(totalWater)}<br>
+        Tiền rác: ${formatCurrency(garbageCost)}<br>
+        Tiền trọ: ${formatCurrency(rent)}<br>
+        <hr>
+        <strong>Tổng cộng: ${formatCurrency(total)}</strong>
+      `;
+
+      saveRoomData(roomId, {
+        oldElectric: newElectric,
+        people,
+        rent,
+        waterCost,
+        garbageCost
+      });
+
+      updateRoomFields(roomId);
+      room.querySelector(".newElectric").value = '';
+    }
+
+    ["room1", "room2", "room3", "room4"].forEach(updateRoomFields);
+  </script>
+</body>
+</html>
